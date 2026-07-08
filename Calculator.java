@@ -23,10 +23,14 @@ public class Calculator {
         String expectedUser = System.getenv("APP_ADMIN_USERNAME");
         String expectedPass = System.getenv("APP_ADMIN_PASSWORD");
 
-        // SECURITY/ROBUSTNESS FIX (CWE-476 NPE): compare with the configured
-        // (null-checked) value as the receiver so a null username/password can
-        // never trigger a NullPointerException.
-        if (expectedUser != null && expectedPass != null
+        // SECURITY/ROBUSTNESS FIX (CWE-476 NPE + CWE-798/CWE-259 deny-by-default):
+        // compare with the configured (null-checked) value as the receiver so a
+        // null username/password can never trigger a NullPointerException. The
+        // configured credentials must also be non-blank so that missing, empty, or
+        // whitespace-only env configuration denies access (secure default) and
+        // cannot be bypassed by empty caller input (e.g. login("", "")).
+        if (expectedUser != null && !expectedUser.isBlank()
+                && expectedPass != null && !expectedPass.isBlank()
                 && expectedUser.equals(username) && expectedPass.equals(password)) {
             return "Login Success";
         }
