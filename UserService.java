@@ -22,9 +22,9 @@ public class UserService {
 
     public void savePassword(String password) {
         // SECURITY FIX (CWE-532/CWE-312 Sensitive Information Exposure): the
-        // plaintext 'System.out.println(password)' was removed so the secret is
-        // never written to stdout/logs. A production implementation must persist a
-        // salted one-way hash (e.g., PBKDF2/BCrypt); that persistence layer is out
-        // of scope for this fixture.
+        // plaintext console logging of the password argument was removed so the
+        // secret is never written to stdout/logs. A production implementation
+        // must persist a salted one-way hash (e.g., PBKDF2/BCrypt); that
+        // persistence layer is out of scope for this fixture.
     }
 }

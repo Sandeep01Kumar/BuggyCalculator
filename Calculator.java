@@ -1,9 +1,9 @@
 public class Calculator {
 
-    // SECURITY FIX (CWE-798 Hardcoded Credentials): the hardcoded
-    // 'password = "admin123"' field was dead state that exposed a credential in
-    // source. It is removed entirely; no method referenced it, so behavior is
-    // unchanged.
+    // SECURITY FIX (CWE-798 Hardcoded Credentials): a hardcoded credential
+    // field that stored a plaintext secret as dead state (never read by any
+    // method) was removed entirely from source; no method referenced it, so
+    // behavior is unchanged.
 
     public int divide(int a, int b) {
         // ROBUSTNESS FIX (CWE-369 Divide By Zero): guard the divisor and fail
@@ -17,9 +17,9 @@ public class Calculator {
 
     public String login(String username, String password) {
         // SECURITY FIX (CWE-798/CWE-259 Hardcoded Credentials): expected
-        // credentials are read from environment variables instead of literal
-        // "admin"/"admin" values baked into source. Missing configuration denies
-        // access (secure default).
+        // credentials are read from environment variables instead of hardcoded
+        // values baked into source. Missing configuration denies access
+        // (secure default).
         String expectedUser = System.getenv("APP_ADMIN_USERNAME");
         String expectedPass = System.getenv("APP_ADMIN_PASSWORD");
 
@@ -47,6 +47,6 @@ public class Calculator {
         }
     }
 
-    // CODE-QUALITY FIX (dead code / unused variable): the no-op 'unusedMethod'
-    // contained only an unused local variable and had no callers; it is removed.
+    // CODE-QUALITY FIX (dead code / unused variable): the no-op dead method that
+    // contained only an unused local variable and had no callers was removed.
 }
